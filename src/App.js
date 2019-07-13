@@ -1,14 +1,16 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
-function Home() {
-  return <h2>Home</h2>
-}
+import Home from "./views/Home.js";
+import { Container } from "./AppStyles.js";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <Router>
-      <Route exact  path='/' component={Home} />
+      <Container>
+        <Navbar />
+        <Route exact path="/" component={Home} />
+      </Container>
     </Router>
   );
 }
