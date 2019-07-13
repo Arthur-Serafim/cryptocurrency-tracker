@@ -12,6 +12,7 @@ const Navigation = styled.div`
 
 const Logo = styled.img`
   height: 35px;
+  cursor: pointer;
 `;
 
 export { Navigation, Logo };
