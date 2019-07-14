@@ -13,7 +13,6 @@ function GlobalTracker() {
       const data = response.data.data;
       setGlobalData(data);
       setLoaded(true);
-      console.log(data);
     }
     getData();
   }, []);
