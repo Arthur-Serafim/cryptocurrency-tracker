@@ -4,6 +4,10 @@ const Title = styled.h1`
   text-align: center;
   margin-top: 50px;
   text-transform: capitalize;
+
+  @media only screen and (max-width: 800px) {
+    font-size: 28px;
+  }
 `;
 
 const Container = styled.div`
@@ -31,7 +35,11 @@ const Form = styled.div`
   width: 85vw;
   display: flex;
   flex-direction: column;
-  margin: 15px;
+  margin: 15px 0;
+
+  @media only screen and (max-width: 900px) {
+    width: 95vw;
+  }
 `;
 
 const FormItem = styled.div`
