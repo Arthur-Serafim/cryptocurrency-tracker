@@ -21,22 +21,24 @@ const Logos = styled.img`
 
 const Names = styled.span`
   font-size: 14px;
-  padding-left: 10px;
+  padding-left: 5px;
 `;
 
 const Form = styled.div`
-  width: 85vw;
   border-left: 1px solid rgba(0, 0, 0, 0.1);
   border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  width: 85vw;
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
 `;
 
 const FormItem = styled.div`
-  width: 100%;
-  height: 50px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   display: grid;
-  grid-template-columns: 35px 1fr;
-  align-content: center;
+  grid-template-columns: 45px 2fr 2fr 1fr 1fr;
+  grid-template-rows: 45px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
 const IdWrapper = styled.div`
@@ -45,12 +47,31 @@ const IdWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.5);
+
+  & p {
+    font-size: 11px;
+  }
 `;
 
-const NameWrapper = styled.div`
+const ItemWrapper = styled.div`
   align-self: center;
   display: flex;
   align-items: center;
+  padding-left: 10px;
+
+  & p {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 13px;
+  }
+
+  ${props =>
+    props.last &&
+    `
+    justify-content: flex-end;
+    margin-right: 15px;
+  `}
 `;
 
 export {
@@ -60,6 +81,6 @@ export {
   Names,
   Form,
   FormItem,
-  NameWrapper,
+  ItemWrapper,
   IdWrapper
 };
