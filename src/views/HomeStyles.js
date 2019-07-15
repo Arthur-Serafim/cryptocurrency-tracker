@@ -56,7 +56,7 @@ const IdWrapper = styled.div`
   justify-content: center;
   align-items: center;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.8);
 
   & p {
     font-size: 11px;
@@ -70,8 +70,16 @@ const ItemWrapper = styled.div`
   padding-left: 10px;
 
   & p {
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.8);
     font-size: 13px;
+
+    &.red {
+      color: #f54242;
+    }
+
+    &.green {
+      color: #62ed3b;
+    }
   }
 
   ${props =>

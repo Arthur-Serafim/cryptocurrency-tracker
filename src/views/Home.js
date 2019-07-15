@@ -14,6 +14,7 @@ import axios from "axios";
 function Home() {
   const [currencies, setCurrencies] = useState([]);
   const [loaded, setLoaded] = useState(false);
+
   useEffect(() => {
     const getData = async () => {
       const response = await axios.get(
@@ -26,26 +27,37 @@ function Home() {
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const reverseCurrencies = () => {
+    setCurrencies(currencies.reverse());
+    console.log(currencies);
+  };
+
   const labels = ["Name", "Market Cap (USD)", "Price (USD)", "24h Change (%)"];
+
   if (loaded) {
     return (
       <Container>
         <Title>Top 50 cryptocurrencies by market capitalization</Title>
         <Form>
           <FormItem>
-            <IdWrapper>
+            <IdWrapper
+              style={{ cursor: "pointer" }}
+              onClick={reverseCurrencies}
+            >
               <p>RANK</p>
             </IdWrapper>
+
             {labels.map(label => {
               if (label === "24h Change (%)") {
                 return (
-                  <ItemWrapper last>
+                  <ItemWrapper last key={label}>
                     <p>{label}</p>
                   </ItemWrapper>
                 );
               } else {
                 return (
-                  <ItemWrapper>
+                  <ItemWrapper key={label}>
                     <p>{label}</p>
                   </ItemWrapper>
                 );
@@ -63,7 +75,11 @@ function Home() {
                 <Names>{coin.name}</Names>
               </ItemWrapper>
               <ItemWrapper>
-                <p>
+                <p
+                  className={
+                    coin.price_change_percentage_24h < 0 ? "red" : "green"
+                  }
+                >
                   $
                   {coin.market_cap
                     .toFixed(2)
@@ -71,7 +87,11 @@ function Home() {
                 </p>
               </ItemWrapper>
               <ItemWrapper>
-                <p>
+                <p
+                  className={
+                    coin.price_change_percentage_24h < 0 ? "red" : "green"
+                  }
+                >
                   $
                   {coin.current_price
                     .toFixed(2)
@@ -79,7 +99,11 @@ function Home() {
                 </p>
               </ItemWrapper>
               <ItemWrapper last>
-                <p>
+                <p
+                  className={
+                    coin.price_change_percentage_24h < 0 ? "red" : "green"
+                  }
+                >
                   {coin.price_change_percentage_24h
                     .toFixed(2)
                     .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
