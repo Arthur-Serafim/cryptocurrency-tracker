@@ -29,7 +29,8 @@ function Home() {
   }, []);
 
   const reverseCurrencies = () => {
-    setCurrencies(currencies.reverse());
+    const newCurrency = [...currencies];
+    setCurrencies(newCurrency.reverse());
     console.log(currencies);
   };
 
