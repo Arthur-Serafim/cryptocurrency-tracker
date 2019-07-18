@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+
 import {
   Title,
   Container,
@@ -7,61 +9,103 @@ import {
   Form,
   FormItem,
   ItemWrapper,
-  IdWrapper
-} from "./HomeStyles";
-import axios from "axios";
+  IdWrapper,
+  Button
+} from './HomeStyles'
 
 function Home() {
-  const [currencies, setCurrencies] = useState([]);
-  const [loaded, setLoaded] = useState(false);
+  const labels = ['Name', 'Market Cap (USD)', 'Price (USD)', '24h Change (%)']
+  const baseUrl = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&&?order=market_cap_asc&&per_page=100&&page=`
+
+  const [currencies, setCurrencies] = useState([])
+  const [loaded, setLoaded] = useState(false)
+  const [page, setPage] = useState(1)
+  const [end, setEnd] = useState(false)
+  const [start, setStart] = useState(true)
+  const [url, setUrl] = useState(baseUrl + page)
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&&?order=market_cap_asc&&per_page=50&&page=1"
-      );
-      const data = response.data;
-      setCurrencies(data);
-      setLoaded(true);
-    };
-    getData();
+      const response = await axios.get(url)
+      const data = response.data
+      setCurrencies(data)
+      setLoaded(true)
+    }
+    getData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page])
 
   const reverseCurrencies = () => {
-    const newCurrency = [...currencies];
-    setCurrencies(newCurrency.reverse());
-    console.log(currencies);
-  };
+    setCurrencies(currencies.slice(0).reverse())
+  }
 
-  const labels = ["Name", "Market Cap (USD)", "Price (USD)", "24h Change (%)"];
+  const nextPage = () => {
+    if (page < 53) {
+      let newPage = page
+      newPage += 1
+      setPage(newPage)
+      const newUrl = baseUrl + newPage
+      setUrl(newUrl)
+      setStart(false)
+      setLoaded(false)
+    } else {
+      setEnd(true)
+    }
+  }
+
+  const prevPage = () => {
+    if (page > 2) {
+      let newPage = page
+      newPage -= 1
+      setPage(newPage)
+
+      const newUrl = baseUrl + newPage
+      setUrl(newUrl)
+      setLoaded(false)
+      setStart(false)
+    } else {
+      let newPage = page
+      newPage -= 1
+      setPage(newPage)
+
+      const newUrl = baseUrl + newPage
+      setUrl(newUrl)
+      setLoaded(false)
+      setStart(true)
+    }
+  }
 
   if (loaded) {
     return (
       <Container>
-        <Title>Top 50 cryptocurrencies by market capitalization</Title>
-        <Form>
+        <Title>Top 100 cryptocurrencies by market capitalization</Title>
+        <Form first>
+          <FormItem first>
+            {!start && <Button onClick={prevPage}>&larr; Previous 100</Button>}
+            {!end && <Button onClick={nextPage}>Next 100 &rarr;</Button>}
+          </FormItem>
+        </Form>
+        <Form last>
           <FormItem>
             <IdWrapper
-              style={{ cursor: "pointer" }}
-              onClick={reverseCurrencies}
-            >
+              style={{ cursor: 'pointer' }}
+              onClick={reverseCurrencies}>
               <p>RANK</p>
             </IdWrapper>
 
             {labels.map(label => {
-              if (label === "24h Change (%)") {
+              if (label === '24h Change (%)') {
                 return (
                   <ItemWrapper last key={label}>
                     <p>{label}</p>
                   </ItemWrapper>
-                );
+                )
               } else {
                 return (
                   <ItemWrapper key={label}>
                     <p>{label}</p>
                   </ItemWrapper>
-                );
+                )
               }
             })}
           </FormItem>
@@ -76,53 +120,92 @@ function Home() {
                 <Names>{coin.name}</Names>
               </ItemWrapper>
               <ItemWrapper>
-                <p
-                  className={
-                    coin.price_change_percentage_24h < 0 ? "red" : "green"
-                  }
-                >
-                  $
-                  {coin.market_cap
-                    .toFixed(2)
-                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
-                </p>
+                {coin.price_change_percentage_24h ? (
+                  <p
+                    className={
+                      coin.price_change_percentage_24h < 0 ? 'red' : 'green'
+                    }>
+                    $
+                    {coin.market_cap
+                      .toFixed(2)
+                      .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
+                  </p>
+                ) : (
+                  <p />
+                )}
               </ItemWrapper>
               <ItemWrapper>
                 <p
                   className={
-                    coin.price_change_percentage_24h < 0 ? "red" : "green"
-                  }
-                >
+                    coin.price_change_percentage_24h < 0 ? 'red' : 'green'
+                  }>
                   $
                   {coin.current_price
                     .toFixed(2)
-                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                    .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                 </p>
               </ItemWrapper>
               <ItemWrapper last>
                 <p
                   className={
-                    coin.price_change_percentage_24h < 0 ? "red" : "green"
-                  }
-                >
-                  {coin.price_change_percentage_24h
-                    .toFixed(2)
-                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                    coin.price_change_percentage_24h < 0 ? 'red' : 'green'
+                  }>
+                  {coin.price_change_percentage_24h &&
+                    coin.price_change_percentage_24h
+                      .toFixed(2)
+                      .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                   %
                 </p>
               </ItemWrapper>
             </FormItem>
           ))}
         </Form>
+        <Form first>
+          <FormItem first>
+            {!start && <Button onClick={prevPage}>&larr; Previous 100</Button>}
+            {!end && <Button onClick={nextPage}>Next 100 &rarr;</Button>}
+          </FormItem>
+        </Form>
       </Container>
-    );
+    )
   } else {
     return (
       <Container>
-        <Title>Top 50 cryptocurrencies by market capitalization</Title>
+        <Title>Top 100 cryptocurrencies by market capitalization</Title>
+        <Form first>
+          <FormItem first>
+            {!start && <Button onClick={prevPage}>&larr; Previous 100</Button>}
+            {!end && <Button onClick={nextPage}>Next 100 &rarr;</Button>}
+          </FormItem>
+        </Form>
+        <Form last>
+          <FormItem>
+            <IdWrapper
+              style={{ cursor: 'pointer' }}
+              onClick={reverseCurrencies}>
+              <p>RANK</p>
+            </IdWrapper>
+
+            {labels.map(label => {
+              if (label === '24h Change (%)') {
+                return (
+                  <ItemWrapper last key={label}>
+                    <p>{label}</p>
+                  </ItemWrapper>
+                )
+              } else {
+                return (
+                  <ItemWrapper key={label}>
+                    <p>{label}</p>
+                  </ItemWrapper>
+                )
+              }
+            })}
+          </FormItem>
+        </Form>
       </Container>
-    );
+    )
   }
 }
 
-export default Home;
+export default Home
