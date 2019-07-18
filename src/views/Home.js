@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 import {
   Title,
@@ -12,6 +13,7 @@ import {
   IdWrapper,
   Button
 } from './HomeStyles'
+
 import nextPage from '../functions/nextPage'
 import prevPage from '../functions/prevPage'
 import reverseCurrencies from '../functions/reverseCurrencies'
@@ -94,7 +96,12 @@ function Home() {
               </IdWrapper>
               <ItemWrapper>
                 <Logos src={coin.image} alt={coin.name} />
-                <Names>{coin.name}</Names>
+                <Link
+                  exact
+                  to={`/coins/${coin.id}`}
+                  style={{ textDecoration: 'none', color: 'black' }}>
+                  <Names>{coin.name}</Names>
+                </Link>
               </ItemWrapper>
               <ItemWrapper>
                 {coin.price_change_percentage_24h && (
