@@ -12,6 +12,9 @@ import {
   IdWrapper,
   Button
 } from './HomeStyles'
+import nextPage from '../functions/nextPage'
+import prevPage from '../functions/prevPage'
+import reverseCurrencies from '../functions/reverseCurrencies'
 
 function Home() {
   const labels = ['Name', 'Market Cap (USD)', 'Price (USD)', '24h Change (%)']
@@ -35,82 +38,56 @@ function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
-  const reverseCurrencies = () => {
-    setCurrencies(currencies.slice(0).reverse())
-  }
+  return (
+    <Container>
+      <Title>Top 100 cryptocurrencies by market capitalization</Title>
+      <Form first>
+        <FormItem first>
+          {!start && (
+            <Button
+              onClick={() =>
+                prevPage(page, setPage, setUrl, setLoaded, setStart)
+              }>
+              &larr; Previous 100
+            </Button>
+          )}
+          {!end && (
+            <Button
+              onClick={() =>
+                nextPage(page, setPage, setUrl, setStart, setLoaded, setEnd)
+              }>
+              Next 100 &rarr;
+            </Button>
+          )}
+        </FormItem>
+      </Form>
+      <Form last>
+        <FormItem>
+          <IdWrapper
+            style={{ cursor: 'pointer' }}
+            onClick={() => reverseCurrencies(currencies, setCurrencies)}>
+            <p>RANK</p>
+          </IdWrapper>
 
-  const nextPage = () => {
-    if (page < 53) {
-      let newPage = page
-      newPage += 1
-      setPage(newPage)
-      const newUrl = baseUrl + newPage
-      setUrl(newUrl)
-      setStart(false)
-      setLoaded(false)
-    } else {
-      setEnd(true)
-    }
-  }
+          {labels.map(label => {
+            if (label === '24h Change (%)') {
+              return (
+                <ItemWrapper last key={label}>
+                  <p>{label}</p>
+                </ItemWrapper>
+              )
+            } else {
+              return (
+                <ItemWrapper key={label}>
+                  <p>{label}</p>
+                </ItemWrapper>
+              )
+            }
+          })}
+        </FormItem>
 
-  const prevPage = () => {
-    if (page > 2) {
-      let newPage = page
-      newPage -= 1
-      setPage(newPage)
-
-      const newUrl = baseUrl + newPage
-      setUrl(newUrl)
-      setLoaded(false)
-      setStart(false)
-    } else {
-      let newPage = page
-      newPage -= 1
-      setPage(newPage)
-
-      const newUrl = baseUrl + newPage
-      setUrl(newUrl)
-      setLoaded(false)
-      setStart(true)
-    }
-  }
-
-  if (loaded) {
-    return (
-      <Container>
-        <Title>Top 100 cryptocurrencies by market capitalization</Title>
-        <Form first>
-          <FormItem first>
-            {!start && <Button onClick={prevPage}>&larr; Previous 100</Button>}
-            {!end && <Button onClick={nextPage}>Next 100 &rarr;</Button>}
-          </FormItem>
-        </Form>
-        <Form last>
-          <FormItem>
-            <IdWrapper
-              style={{ cursor: 'pointer' }}
-              onClick={reverseCurrencies}>
-              <p>RANK</p>
-            </IdWrapper>
-
-            {labels.map(label => {
-              if (label === '24h Change (%)') {
-                return (
-                  <ItemWrapper last key={label}>
-                    <p>{label}</p>
-                  </ItemWrapper>
-                )
-              } else {
-                return (
-                  <ItemWrapper key={label}>
-                    <p>{label}</p>
-                  </ItemWrapper>
-                )
-              }
-            })}
-          </FormItem>
-
-          {currencies.map(coin => (
+        {loaded &&
+          currencies.map(coin => (
             <FormItem key={coin.id}>
               <IdWrapper>
                 <span>{coin.market_cap_rank}</span>
@@ -120,7 +97,7 @@ function Home() {
                 <Names>{coin.name}</Names>
               </ItemWrapper>
               <ItemWrapper>
-                {coin.price_change_percentage_24h ? (
+                {coin.price_change_percentage_24h && (
                   <p
                     className={
                       coin.price_change_percentage_24h < 0 ? 'red' : 'green'
@@ -130,8 +107,6 @@ function Home() {
                       .toFixed(2)
                       .replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                   </p>
-                ) : (
-                  <p />
                 )}
               </ItemWrapper>
               <ItemWrapper>
@@ -159,53 +134,32 @@ function Home() {
               </ItemWrapper>
             </FormItem>
           ))}
-        </Form>
-        <Form first>
-          <FormItem first>
-            {!start && <Button onClick={prevPage}>&larr; Previous 100</Button>}
-            {!end && <Button onClick={nextPage}>Next 100 &rarr;</Button>}
-          </FormItem>
-        </Form>
-      </Container>
-    )
-  } else {
-    return (
-      <Container>
-        <Title>Top 100 cryptocurrencies by market capitalization</Title>
-        <Form first>
-          <FormItem first>
-            {!start && <Button onClick={prevPage}>&larr; Previous 100</Button>}
-            {!end && <Button onClick={nextPage}>Next 100 &rarr;</Button>}
-          </FormItem>
-        </Form>
-        <Form last>
-          <FormItem>
-            <IdWrapper
-              style={{ cursor: 'pointer' }}
-              onClick={reverseCurrencies}>
-              <p>RANK</p>
-            </IdWrapper>
+      </Form>
 
-            {labels.map(label => {
-              if (label === '24h Change (%)') {
-                return (
-                  <ItemWrapper last key={label}>
-                    <p>{label}</p>
-                  </ItemWrapper>
-                )
-              } else {
-                return (
-                  <ItemWrapper key={label}>
-                    <p>{label}</p>
-                  </ItemWrapper>
-                )
-              }
-            })}
+      {loaded && (
+        <Form first>
+          <FormItem first>
+            {!start && (
+              <Button
+                onClick={() =>
+                  prevPage(page, setPage, setUrl, setLoaded, setStart)
+                }>
+                &larr; Previous 100
+              </Button>
+            )}
+            {!end && (
+              <Button
+                onClick={() =>
+                  nextPage(page, setPage, setUrl, setStart, setLoaded, setEnd)
+                }>
+                Next 100 &rarr;
+              </Button>
+            )}
           </FormItem>
         </Form>
-      </Container>
-    )
-  }
+      )}
+    </Container>
+  )
 }
 
 export default Home

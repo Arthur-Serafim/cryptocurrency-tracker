@@ -26,6 +26,7 @@ const Logos = styled.img`
 const Names = styled.span`
   font-size: 14px;
   padding-left: 5px;
+  cursor: pointer;
 `
 
 const Form = styled.div`
