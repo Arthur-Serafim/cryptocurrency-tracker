@@ -97,7 +97,6 @@ function Home() {
               <ItemWrapper>
                 <Logos src={coin.image} alt={coin.name} />
                 <Link
-                  exact
                   to={`/coins/${coin.id}`}
                   style={{ textDecoration: 'none', color: 'black' }}>
                   <Names>{coin.name}</Names>
