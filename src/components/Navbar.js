@@ -1,16 +1,13 @@
-import React from "react";
-import { Navigation, Logo } from "./NavbarStyles";
-import FullLogo from "../images/FullLogo.png";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Navigation, Logo } from './NavbarStyles'
+import FullLogo from '../images/FullLogo.png'
 
 function Navbar() {
   return (
     <Navigation>
-      <Link to="/">
-        <Logo src={FullLogo} alt="website logo" />
-      </Link>
+      <Logo src={FullLogo} alt="website logo" />
     </Navigation>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar

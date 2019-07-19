@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
 
 import {
   Title,
@@ -30,13 +29,12 @@ function Home() {
   const [url, setUrl] = useState(baseUrl + page)
 
   useEffect(() => {
-    const getData = async () => {
+    ;(async () => {
       const response = await axios.get(url)
       const data = response.data
       setCurrencies(data)
       setLoaded(true)
-    }
-    getData()
+    })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
@@ -96,11 +94,7 @@ function Home() {
               </IdWrapper>
               <ItemWrapper>
                 <Logos src={coin.image} alt={coin.name} />
-                <Link
-                  to={`/coins/${coin.id}`}
-                  style={{ textDecoration: 'none', color: 'black' }}>
-                  <Names>{coin.name}</Names>
-                </Link>
+                <Names>{coin.name}</Names>
               </ItemWrapper>
               <ItemWrapper>
                 {coin.price_change_percentage_24h && (

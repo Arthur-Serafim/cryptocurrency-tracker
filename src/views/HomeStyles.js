@@ -42,6 +42,10 @@ const Form = styled.div`
     width: 95vw;
   }
 
+  @media only screen and (max-width: 700px) {
+    width: 100vw;
+  }
+
   ${props => props.last && `margin: 0`}
 
   ${props =>

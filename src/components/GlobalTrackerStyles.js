@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 const GlobalTracking = styled.div`
   grid-area: global;
@@ -13,7 +13,7 @@ const GlobalTracking = styled.div`
   @media only screen and (max-width: 610px) {
     justify-content: flex-start;
   }
-`;
+`
 
 const Text = styled.div`
   font-size: 12px;
@@ -22,6 +22,18 @@ const Text = styled.div`
     padding-left: 5px;
   }
   margin: 5px;
-`;
 
-export { GlobalTracking, Text };
+  @media only screen and (max-width: 800px) {
+    font-size: 10px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    font-size: 8px;
+  }
+
+  @media only screen and (max-width: 500px) {
+    font-size: 7px;
+  }
+`
+
+export { GlobalTracking, Text }
