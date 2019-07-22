@@ -10,9 +10,6 @@ const GlobalTracking = styled.div`
   justify-content: space-evenly;
   flex-wrap: wrap;
 
-  @media only screen and (max-width: 610px) {
-    justify-content: flex-start;
-  }
 `
 
 const Text = styled.div`

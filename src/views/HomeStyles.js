@@ -6,7 +6,15 @@ const Title = styled.h1`
   text-transform: capitalize;
 
   @media only screen and (max-width: 800px) {
-    font-size: 28px;
+    font-size: 24px;
+  }
+
+  @media only screen and (max-width: 700px) {
+    font-size: 22px;
+  }
+
+  @media only screen and (max-width: 700px) {
+    font-size: 18px;
   }
 `
 
@@ -27,6 +35,14 @@ const Names = styled.span`
   font-size: 14px;
   padding-left: 5px;
   cursor: pointer;
+
+  @media only screen and (max-width: 800px) {
+    font-size: 10px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    font-size: 8px;
+  }
 `
 
 const Form = styled.div`
@@ -40,10 +56,6 @@ const Form = styled.div`
 
   @media only screen and (max-width: 900px) {
     width: 95vw;
-  }
-
-  @media only screen and (max-width: 700px) {
-    width: 100vw;
   }
 
   ${props => props.last && `margin: 0`}
@@ -61,6 +73,10 @@ const FormItem = styled.div`
   grid-template-columns: 45px 2fr 2fr 1fr 1fr;
   grid-template-rows: 45px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  @media only screen and (max-width: 700px) {
+    grid-template-rows: 35px;
+  }
 
   ${props =>
     props.first &&
@@ -83,8 +99,17 @@ const IdWrapper = styled.div`
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   color: rgba(0, 0, 0, 0.8);
 
-  & p {
+  & span,
+  p {
     font-size: 11px;
+
+    @media only screen and (max-width: 800px) {
+      font-size: 10px;
+    }
+
+    @media only screen and (max-width: 600px) {
+      font-size: 8px;
+    }
   }
 `
 
@@ -104,6 +129,14 @@ const ItemWrapper = styled.div`
 
     &.green {
       color: #62ed3b;
+    }
+
+    @media only screen and (max-width: 800px) {
+      font-size: 10px;
+    }
+
+    @media only screen and (max-width: 600px) {
+      font-size: 8px;
     }
   }
 
@@ -130,6 +163,10 @@ const Button = styled.button`
 
   &:hover {
     color: #d78017;
+  }
+
+  @media only screen and (max-width: 900px) {
+    font-size: 12px;
   }
 `
 
