@@ -4,6 +4,7 @@ const Title = styled.h1`
   text-align: center;
   margin-top: 50px;
   text-transform: capitalize;
+  padding: 0 10px;
 
   @media only screen and (max-width: 800px) {
     font-size: 24px;
